@@ -1,0 +1,12 @@
+.navbar-link {
+
+    transition: text-shadow 0.3s ease;
+    transition: scale 0.3s ease;
+
+}
+
+.navbar-link:hover {
+
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    scale: 110%;
+}
