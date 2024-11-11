@@ -1,8 +1,21 @@
 {% extends 'baseTemplate.html' %}
 {% block content %}
-<br><h1>Work in progress...</h1>
-<img src="https://as2.ftcdn.net/v2/jpg/00/32/32/85/1000_F_32328565_gj3tKlPJ56Pq3ZKRxhT5mvQDF1ysxZ4U.jpg" style="scale: 50%; margin-left: 0px;">
 
+<div class="grid-container">
+    
+    {% for item in data %}
+        
+        <div class="tile">
+            <img src="{{ item.images }}" alt="{{ item.name }} images">
+
+            <h2>{{ item.name }}</h2>
+            <h3>Primarily targets: {{ item.primaryMuscles }}</h3>
+            <p>{{ item.instructions }}</p>
+        </div>
+
+    {% endfor %}
+
+</div>
 
 
 {% endblock %}

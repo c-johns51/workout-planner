@@ -10,3 +10,24 @@
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
     scale: 110%;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+
+.tile {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.tile img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
