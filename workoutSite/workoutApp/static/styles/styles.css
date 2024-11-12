@@ -19,6 +19,7 @@
 }
 
 .tile {
+    color: #253857;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 16px;

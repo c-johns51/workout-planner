@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 import json
 from pathlib import Path
@@ -12,4 +13,10 @@ def exerciseList(request):
     with open(json_path) as json_file:
         data = json.load(json_file)
 
-    return render(request, 'exerciseList.html', {'data': data})
+    paginator = Paginator(data, 20)
+
+    pageNum = request.GET.get('page', 1)
+
+    pageObj = paginator.get_page(pageNum)
+
+    return render(request, 'exerciseList.html', {'pageObj': pageObj})
