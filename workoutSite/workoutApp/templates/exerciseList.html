@@ -8,20 +8,20 @@
             <img src="{{ item.images }}" alt="{{ item.name }} images">
 
             <h2 style="color: white;">{{ item.name }}</h2>
-            <h3>Primarily targets: {{ item.primaryMuscles }}</h3>
-            <p>{{ item.instructions }}</p>
+            <h3 style="color: white;">Primarily targets: {{ item.primaryMuscles }}</h3>
+            <p style="color: white;">{{ item.instructions }}</p>
         </div>
     {% endfor %}
 
     <div class="pagination">
         {% if pageObj.has_previous %}
-            <a href="?page={{ pageObj.previous_page_number }}">Previous</a>
+            <a class="btn" style="border-color: black;" href="?page={{ pageObj.previous_page_number }}">Previous</a>
         {% endif %}
     
-        <span>Page {{ pageObj.number }} of {{ pageObj.paginator.num_pages }}</span>
+        <span style="padding-inline: 5px;">Page {{ pageObj.number }} of {{ pageObj.paginator.num_pages }}</span>
     
         {% if pageObj.has_next %}
-            <a href="?page={{ pageObj.next_page_number }}">Next</a>
+            <a class="btn" style="border-color: black;" href="?page={{ pageObj.next_page_number }}">Next</a>
         {% endif %}
     </div>
     

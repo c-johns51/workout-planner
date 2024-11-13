@@ -12,13 +12,26 @@
     
     <body>
     <!-- Unified Navbar -->
-    <nav class="navbar navbar-dark navbar-custom shadow-lg" style="background-color: #253857;">
+    <nav class="navbar navbar-dark navbar-expand-lg shadow-lg" style="background-color: #253857;">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <!-- App Title -->
             <a class="navbar-brand" style="margin-left: 10px;">Workout Planner</a>
             <a class="navbar-brand">|</a>
-            <a class="navbar-brand navbar-link" href="{% url 'home' %}">Routine</a>
-            <a class="navbar-brand navbar-link" href="{% url 'exerciseList' %}">Exercises</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="navbar-brand navbar-link" href="{% url 'home' %}">Routine</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="navbar-brand navbar-link" href="{% url 'exerciseList' %}">Exercises</a>
+                  </li>
+                </ul>
+              </div>
+
             <!-- Profile Icon and User Pop-up Menu -->
             <div class="user-wrapper d-flex ms-auto">
                 <!-- User Profile Icon (top right) -->
@@ -37,6 +50,10 @@
             {% endblock %}
 
         </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     </body>
 </html>
