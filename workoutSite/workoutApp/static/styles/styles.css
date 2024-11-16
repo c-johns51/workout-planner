@@ -13,18 +13,34 @@
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
+    grid-template-columns: repeat(1fr);
     gap: 16px;
     padding: 20px;
+    margin-inline: auto;
+    max-width: 50%;
 }
 
 .tile {
+
+    width: 100%;
+    scale: 100%;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 16px;
-    text-align: center;
     background-color: #253857;
 }
+
+@media (max-width: 600px) {
+    .grid-container {
+      max-width: 100%;
+    }
+
+    .tile {
+
+        width: 100%;
+    }
+  }
+
 
 .tile img {
     width: 100%;
