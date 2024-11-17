@@ -20,6 +20,14 @@
             <h2 style="color: white;">{{ item.name }}</h2>
             <h3 style="color: white;">Primarily targets: {{ item.primaryMuscles }}</h3>
             <p style="color: white;">{{ item.instructions }}</p>
+
+            <!-- Link to the add_to_routine page -->
+            <a href="{% url 'add_to_routine' %}?exercise_name={{ item.name }}&primaryMuscles={{ item.primaryMuscles }}&instructions={{ item.instructions }}&images={{ item.images }}" 
+               class="btn btn-primary" 
+               style="margin-top: 10px;">
+                Add to Routine
+            </a>
+            
         </div>
     {% endfor %}
 
