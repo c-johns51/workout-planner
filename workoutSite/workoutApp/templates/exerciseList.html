@@ -1,4 +1,5 @@
 {% extends 'baseTemplate.html' %}
+{% load static %}
 {% block content %}
 
 <div class="container-fluid" style="justify-content: center;">
@@ -10,7 +11,11 @@
     
     {% for item in pageObj %}
         <div class="tile">
-            <img src="{{ item.images }}" alt="{{ item.name }} images">
+            
+            <div class="image-grid">
+                <img src="{% static 'exercises/' %}{{ item.id }}/0.jpg" alt="{{ item.name }} images">
+                <img src="{% static 'exercises/' %}{{ item.id }}/1.jpg" alt="{{ item.name }} images">
+            </div>
 
             <h2 style="color: white;">{{ item.name }}</h2>
             <h3 style="color: white;">Primarily targets: {{ item.primaryMuscles }}</h3>

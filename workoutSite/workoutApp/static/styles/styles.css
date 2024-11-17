@@ -31,18 +31,22 @@
 }
 
 @media (max-width: 600px) {
+
     .grid-container {
       max-width: 100%;
     }
+}
 
-    .tile {
+.image-grid {
 
-        width: 100%;
-    }
-  }
-
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
 
 .tile img {
+
+    display: inline-block;
     width: 100%;
     height: auto;
     border-radius: 8px;
