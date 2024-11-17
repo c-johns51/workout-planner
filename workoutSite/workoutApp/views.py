@@ -9,7 +9,7 @@ from workoutApp.forms import AddExerciseForm
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'workoutApp/home.html')
 
 def exerciseList(request):
 
@@ -23,7 +23,7 @@ def exerciseList(request):
 
     pageObj = paginator.get_page(pageNum)
 
-    return render(request, 'exerciseList.html', {'pageObj': pageObj})
+    return render(request, 'workoutApp/exerciseList.html', {'pageObj': pageObj})
 
 
 @login_required
@@ -47,11 +47,11 @@ def add_to_routine(request):
         }
         form = AddExerciseForm(initial=initial_data)
 
-    return render(request, 'add_to_routine.html', {'form': form})
+    return render(request, 'workoutApp/add_to_routine.html', {'form': form})
     
 @login_required
 def view_routine(request):
     routine = Routine.objects.filter(user=request.user).first()
     exercises = routine.exercises.all() if routine else []
 
-    return render(request, 'view_routine.html', {'routine': routine, 'exercises': exercises})
+    return render(request, 'workoutApp/view_routine.html', {'routine': routine, 'exercises': exercises})
