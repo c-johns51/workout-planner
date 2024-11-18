@@ -1,35 +1,53 @@
 {% extends 'baseTemplate.html' %}
 {% load static %}
 {% block content %}
+<style>
+  .custom-bg {
+    background-color: #eaeaea; /* Replace with your desired color */
+  }
+</style>  
+
 <h1>My Routine</h1>
 
 <div class="container">
-    {% for day, exercises in exercises_by_day.items %}
-        <div class="mb-4">
-            <h2>{{ day }}</h2>
-            {% if exercises %}
-                <ul>
+    <div class="row">
+        {% for day, exercises in exercises_by_day.items %}
+            <!-- Column for each day -->
+            <div class="col border p-3 custom-bg">
+                <!-- Day Name -->
+                <div class="text-center bg-dark text-light p-2 mb-3 rounded">
+                    <strong>{{ day }}</strong>
+                </div>
+                <!-- Exercises for the Day -->
+                {% if exercises %}
                     {% for exercise in exercises %}
-                        <li>
+                        <div class="mb-4">
+                            <!-- Exercise Name -->
                             <strong>{{ exercise.name }}</strong>
-                            <div>
-                                <!-- Iterate over the images field and display each image -->
+                            <div class="image-grid d-flex flex-wrap mt-2">
+                                <!-- Images -->
                                 {% for image in exercise.images %}
-                                    <img src="{% static 'exercises/' %}{{ image }}" alt="{{ exercise.name }} image" class="img-thumbnail" style="max-width: 150px; margin: 5px;">
+                                    <img src="{% static 'exercises/' %}{{ image }}" alt="{{ exercise.name }} image" class="img-thumbnail me-2 mb-2" style="max-width: 150px;">
                                 {% endfor %}
                             </div>
+                            <!-- View Exercise Details Button-->
+                            
+                            <!-- Remove Button -->
                             <form method="post" action="{% url 'remove_exercise' exercise.id %}" style="display:inline;">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                             </form>
-                        </li>
+                        </div>
+                        <!-- Divider -->
+                        {% if not forloop.last %}
+                            <hr class="my-3">
+                        {% endif %}
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p>No exercises scheduled for this day.</p>
-            {% endif %}
-        </div>
-    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No exercises</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 </div>
-
 {% endblock %}
