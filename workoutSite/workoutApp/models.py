@@ -11,23 +11,16 @@ class Routine(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Exercise(models.Model):
-    """"""
-    DAYS_OF_WEEK = [
-        ('Monday', 'Monday'),
-        ('Tuesday', 'Tuesday'),
-        ('Wednesday', 'Wednesday'),
-        ('Thursday', 'Thursday'),
-        ('Friday', 'Friday'),
-        ('Saturday', 'Saturday'),
-        ('Sunday', 'Sunday'),
-    ]
     routine = models.ForeignKey(Routine, on_delete=models.CASCADE, related_name="exercises")
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     primary_muscles = models.CharField(max_length=255, blank=True, null=True)
-    images = models.URLField(blank=True, null=True)
+    images = models.JSONField(default=list)
     days = models.ManyToManyField('Day', related_name="exercises")
 
 class Day(models.Model):
     """This model normalizes the data, making it easier to filter and group exercises by day."""
     name = models.CharField(max_length=10, unique=True)  # E.g., "Monday"
+
+    def __str__(self):
+        return self.name

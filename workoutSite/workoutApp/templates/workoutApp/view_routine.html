@@ -1,22 +1,35 @@
 {% extends 'baseTemplate.html' %}
+{% load static %}
 {% block content %}
+<h1>My Routine</h1>
 
-<h2>My Routine</h2>
-{% if routine %}
-  <ul>
-    {% for exercise in exercises %}
-      <li>
-        {{ exercise.name }} - {{ exercise.description }}
-        <form method="post" action="{% url 'remove_from_routine' %}">
-          {% csrf_token %}
-          <input type="hidden" name="exercise_id" value="{{ exercise.id }}">
-          <button type="submit">Remove</button>
-        </form>
-      </li>
+<div class="container">
+    {% for day, exercises in exercises_by_day.items %}
+        <div class="mb-4">
+            <h2>{{ day }}</h2>
+            {% if exercises %}
+                <ul>
+                    {% for exercise in exercises %}
+                        <li>
+                            <strong>{{ exercise.name }}</strong>
+                            <div>
+                                <!-- Iterate over the images field and display each image -->
+                                {% for image in exercise.images %}
+                                    <img src="{% static 'exercises/' %}{{ image }}" alt="{{ exercise.name }} image" class="img-thumbnail" style="max-width: 150px; margin: 5px;">
+                                {% endfor %}
+                            </div>
+                            <form method="post" action="{% url 'remove_exercise' exercise.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No exercises scheduled for this day.</p>
+            {% endif %}
+        </div>
     {% endfor %}
-  </ul>
-{% else %}
-  <p>You don't have a routine yet. Add exercises to create one!</p>
-{% endif %}
+</div>
 
 {% endblock %}

@@ -1,10 +1,38 @@
 {% extends 'baseTemplate.html' %}
 {% block content %}
+<style>
+    .form-check {
+        display: inline-block;
+        margin-right: 15px;
+    }
+</style>
 <h2>Add Exercise to Routine</h2>
 
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <!-- Hidden name field -->
+    <div class="mb-3">
+        <input type="hidden" name="name" value="{{ form.initial.name }}">
+        <p class="form-text"><strong>Exercise:</strong> {{ form.initial.name }}</p>
+    </div>
+
+    <!-- Days of the Week -->
+    <div class="mb-3">
+        <label for="id_days" class="form-label"><strong>Days of the Week:</strong></label>
+        <div class="d-flex flex-wrap">
+            {% for checkbox in form.days %}
+                <div class="form-check me-3">
+                    {{ checkbox.tag }} {{ checkbox.choice_label }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Hidden fields -->
+    {{ form.description }}
+    {{ form.primary_muscles }}
+    {{ form.images }}
+
     <button type="submit" class="btn btn-primary">Add Exercise</button>
 </form>
 {% endblock %}

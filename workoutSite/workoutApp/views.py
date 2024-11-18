@@ -3,9 +3,10 @@ from django.shortcuts import render
 import json
 from pathlib import Path
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from workoutApp.models import Routine, Exercise
+from django.shortcuts import render, redirect, get_object_or_404
+from workoutApp.models import Routine, Exercise, Day
 from workoutApp.forms import AddExerciseForm
+from ast import literal_eval
 
 # Create your views here.
 def home(request):
@@ -36,14 +37,22 @@ def add_to_routine(request):
             exercise.routine = routine
             exercise.save()
             form.save_m2m()  # Save many-to-many relationships
-            return redirect('exercise_list')
+            return redirect('exerciseList')
+        else:
+            print("Form errors:", form.errors)  # Debugging
     else:
         # Prepopulate form with query parameters
+        images = request.GET.get('images', '')
+        try:
+            images = literal_eval(images) if images else []
+        except (ValueError, SyntaxError):
+            images = []
+
         initial_data = {
             'name': request.GET.get('exercise_name', ''),
             'primary_muscles': request.GET.get('primaryMuscles', ''),
             'description': request.GET.get('instructions', ''),
-            'images': request.GET.get('images', ''),
+            'images': images,
         }
         form = AddExerciseForm(initial=initial_data)
 
@@ -52,6 +61,19 @@ def add_to_routine(request):
 @login_required
 def view_routine(request):
     routine = Routine.objects.filter(user=request.user).first()
-    exercises = routine.exercises.all() if routine else []
+    days = Day.objects.all()
 
-    return render(request, 'workoutApp/view_routine.html', {'routine': routine, 'exercises': exercises})
+    # Group exercises by day
+    exercises_by_day = {
+        day.name: routine.exercises.filter(days=day) if routine else []
+        for day in days
+    }
+
+    return render(request, 'workoutApp/view_routine.html', {
+        'exercises_by_day': exercises_by_day
+    })
+
+def remove_exercise(request, exercise_id):
+    exercise = get_object_or_404(Exercise, id=exercise_id, routine__user=request.user)
+    exercise.delete()
+    return redirect('view_routine')
