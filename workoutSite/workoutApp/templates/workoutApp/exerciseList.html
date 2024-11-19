@@ -2,8 +2,12 @@
 {% load static %}
 {% block content %}
 
-<div class="container-fluid" style="justify-content: center;">
-    <p style="text-align: center;">Gonna put a search bar here soon :)</p>
+<div class="container-fluid">
+    <form method="get" action="{% url 'exerciseList' %}" style="align-items: center;">
+        <input type="text" name="q" placeholder="Search for an exercise..." value="{{ exerciseQuery }}">
+        <button type="submit">Search</button>
+    </form>
+
 </div>
 
 
@@ -18,8 +22,16 @@
             </div>
 
             <h2 style="color: white;">{{ item.name }}</h2>
-            <h3 style="color: white;">Primarily targets: {{ item.primaryMuscles }}</h3>
-            <p style="color: white;">{{ item.instructions }}</p>
+            <h3 style="color: white;">Primarily targets: {% for muscle in item.primaryMuscles %} {{ muscle }} {% endfor %}</h3>
+            {% if item.secondaryMuscles %}
+                <h4 style="color: white;">Also targets: {% for muscle in item.secondaryMuscles %} {% if forloop.last %} {{ muscle }} {% else %} {{ muscle }}, {% endif %}{% endfor %}</h4>
+            {% endif %}
+
+            {% for sentence in item.instructions %}
+
+            <p style="color: white;">{{ sentence }}</p>
+
+            {% endfor %}
 
             <!-- Link to the add_to_routine page -->
             <a href="{% url 'add_to_routine' %}?exercise_name={{ item.name }}&primaryMuscles={{ item.primaryMuscles }}&instructions={{ item.instructions }}&images={{ item.images }}" 
@@ -33,13 +45,13 @@
 
     <div class="pagination">
         {% if pageObj.has_previous %}
-            <a class="btn" style="border-color: black;" href="?page={{ pageObj.previous_page_number }}">Previous</a>
+            <a class="btn" style="border-color: black;" href="?q={{ query }}&page={{ pageObj.previous_page_number }}">Previous</a>
         {% endif %}
     
         <span style="padding-inline: 5px;">Page {{ pageObj.number }} of {{ pageObj.paginator.num_pages }}</span>
     
         {% if pageObj.has_next %}
-            <a class="btn" style="border-color: black;" href="?page={{ pageObj.next_page_number }}">Next</a>
+            <a class="btn" style="border-color: black;" href="?q={{ query }}&page={{ pageObj.next_page_number }}">Next</a>
         {% endif %}
     </div>
     

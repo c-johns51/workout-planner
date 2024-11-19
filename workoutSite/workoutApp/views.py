@@ -1,3 +1,4 @@
+import re
 from django.core.paginator import Paginator
 from django.shortcuts import render
 import json
@@ -18,13 +19,30 @@ def exerciseList(request):
     with open(json_path) as json_file:
         data = json.load(json_file)
 
+    uniqueMuscles = set()
+    for item in data:
+        for muscle in item.get('primaryMuscles'):
+            uniqueMuscles.add(muscle)
+
+    uniqueMuscles = sorted(uniqueMuscles)
+
+    exerciseQuery = request.GET.get('q', '')
+    muscleQuery = request.GET.get('m', '')
+
+    if exerciseQuery:
+        regex = re.compile(rf'\b{re.escape(exerciseQuery)}\b', re.IGNORECASE)
+        data = [item for item in data if regex.search(item['name'])]
+
+    if muscleQuery:
+        data = [item for item in data if muscle in item.get('primaryMuscles')]
+
     paginator = Paginator(data, 20)
 
     pageNum = request.GET.get('page', 1)
 
     pageObj = paginator.get_page(pageNum)
 
-    return render(request, 'workoutApp/exerciseList.html', {'pageObj': pageObj})
+    return render(request, 'workoutApp/exerciseList.html', {'pageObj': pageObj, 'exerciseQuery': exerciseQuery, 'muscleQuery': muscleQuery, 'uniqueMuscles': uniqueMuscles})
 
 
 @login_required
