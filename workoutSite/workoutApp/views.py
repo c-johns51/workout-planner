@@ -26,7 +26,7 @@ def exerciseList(request):
     uniqueMuscles = sorted(uniqueMuscles)
 
     exerciseQuery = request.GET.get('q', '')
-    muscleQuery = request.GET.get('q', '')
+    muscleQuery = request.GET.get('m', '')
 
     if exerciseQuery:
         regex = re.compile(rf'\b{re.escape(exerciseQuery)}\b', re.IGNORECASE)
