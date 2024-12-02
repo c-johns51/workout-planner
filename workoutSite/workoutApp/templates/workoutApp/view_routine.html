@@ -20,6 +20,12 @@
                 </div>
                 <!-- Exercises for the Day -->
                 {% if exercises %}
+                    <div class="mb-4" style="align-items: center;">
+                        <strong>Muscles hit:</strong>
+                        {% for exercise in exercises %}
+                            <strong> {{ exercise.primary_muscles }}</strong>
+                        {% endfor %}
+                    </div>
                     {% for exercise in exercises %}
                         <div class="mb-4">
                             <!-- Exercise Name -->

@@ -1,6 +1,35 @@
 {% extends 'baseTemplate.html' %}
 {% block content %}
+{% load static %}
 
-<h1>Home page</h1>
+<div class="row justify-content-center" style="padding-top: 50px;">
+
+    <div class="text-center">
+        <h1 class="display-2 mb-3">Welcome to the Workout Planner!</h1>
+        <h3 class="display-4">Plan your workouts in a flash!</h3>
+    </div>
+    
+</div>
+
+<div class="row container-fluid" style="padding-top: 10px;">
+
+    <div class="col shadow-lg" style="padding-left: 5%;">
+        <img class="home-img" src="{% static '/images/homeImages/workoutplanner1.jpg' %}">
+    </div>
+    <div class="col shadow-lg">
+        <img class="home-img" src="{% static '/images/homeImages/workoutplanner2.jpg' %}">
+    </div>
+    <div class="col shadow-lg" style="padding-right: 5%;">
+        <img class="home-img" src="{% static '/images/homeImages/workoutplanner3.jpg' %}">
+    </div>
+
+</div>
+
+<div class="row text-center" style="padding-top: 10px;">
+
+    <h1 class="display-6">If you're not logged in, please do so <a href="{% url 'register' %}">here</a> to start planning your routine!</h1>
+    <h1 class="display-6">If you are logged in, head to your routine <a href="{% url 'view_routine' %}">here!</a></h1>
+    
+</div>
 
 {% endblock %}
