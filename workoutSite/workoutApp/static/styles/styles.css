@@ -52,3 +52,10 @@
     height: auto;
     border-radius: 8px;
 }
+
+.home-img {
+
+    border-radius: 20px;
+    scale: 33%;
+
+}
