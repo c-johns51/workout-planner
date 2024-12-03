@@ -11,9 +11,10 @@ class AddExerciseForm(forms.ModelForm):
 
     class Meta:
         model = Exercise
-        fields = ['name', 'description', 'primary_muscles', 'images', 'days']
+        fields = ['name', 'description', 'primary_muscles', 'secondary_muscles', 'images', 'days']
         widgets = {
             'primary_muscles': forms.HiddenInput(),  # Hide primary muscles
+            'secondary_muscles': forms.HiddenInput(),  # Hide secondary muscles
             'description': forms.HiddenInput(),  # Hide description
             'images': forms.HiddenInput(),  # Hide images
         }

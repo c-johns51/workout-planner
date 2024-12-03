@@ -34,7 +34,7 @@
                 <!-- Exercises for the Day -->
                 {% if exercises %}
                     <div class="mb-4">
-                        <strong>Muscles hit:</strong>
+                        <strong>Primary Muscles Hit Today:</strong>
                         {% for exercise in exercises %}
                             <span class="badge bg-info text-dark">{{ exercise.primary_muscles }}</span>
                         {% endfor %}
@@ -49,6 +49,8 @@
                                     <img src="{% static 'exercises/' %}{{ image }}" alt="{{ exercise.name }} image" class="img-thumbnail me-2 mb-2" style="max-width: 150px;">
                                 {% endfor %}
                             </div>
+                            <!-- View Button -->
+                            <a href="{% url 'exercise_detail' exercise.id %}" class="btn btn-primary btn-sm" style="margin-top: 10px;">View</a>
                             <!-- Remove Button -->
                             <form method="post" action="{% url 'remove_exercise' exercise.id day %}" style="display:inline;">
                                 {% csrf_token %}

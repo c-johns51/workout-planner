@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from workoutApp.models import Routine, Exercise, Day
 from workoutApp.forms import AddExerciseForm
 from ast import literal_eval
+import ast
 
 # Create your views here.
 def home(request):
@@ -55,20 +56,21 @@ def add_to_routine(request):
             exercise.routine = routine
             exercise.save()
             form.save_m2m()  # Save many-to-many relationships
-            return redirect('exerciseList')
-        else:
-            print("Form errors:", form.errors)  # Debugging
+            return redirect('view_routine')
     else:
         # Prepopulate form with query parameters
         images = request.GET.get('images', '')
         try:
             images = literal_eval(images) if images else []
+            if not isinstance(images, list):
+                images = []
         except (ValueError, SyntaxError):
             images = []
 
         initial_data = {
             'name': request.GET.get('exercise_name', ''),
             'primary_muscles': request.GET.get('primaryMuscles', ''),
+            'secondary_muscles': request.GET.get('secondaryMuscles', ''),  # Placeholder for future use
             'description': request.GET.get('instructions', ''),
             'images': images,
         }
@@ -107,3 +109,38 @@ def remove_exercise(request, exercise_id, day):
         exercise.delete()
 
     return redirect('view_routine')
+
+def exercise_detail(request, exercise_id):
+    """
+    View to display details of a specific exercise.
+    """
+    exercise = get_object_or_404(Exercise, id=exercise_id)
+
+    # Convert primary_muscles and secondary_muscles into lists
+    primary_muscles = exercise.primary_muscles.strip("[]").replace("'", "").split(", ")
+    secondary_muscles = []
+    if exercise.secondary_muscles:
+        secondary_muscles = exercise.secondary_muscles.strip("[]").replace("'", "").split(", ")
+    
+    # Initialize the description_sentences list
+    description_steps = []
+
+    if exercise.description:
+        try:
+            description_steps = ast.literal_eval(exercise.description)
+        except (ValueError, SyntaxError):
+            # If parsing fails, fallback to splitting by '. '
+            description_steps = exercise.description.split('. ')
+    else:
+        description_steps = []
+        
+    return render(
+        request,
+        'workoutApp/exercise_detail.html',
+        {
+            'exercise': exercise,
+            'primary_muscles': primary_muscles,
+            'secondary_muscles': secondary_muscles,
+            'description_steps': description_steps,
+        },
+    )
