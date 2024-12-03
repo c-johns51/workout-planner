@@ -15,6 +15,7 @@ class Exercise(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     primary_muscles = models.CharField(max_length=255, blank=True, null=True)
+    secondary_muscles = models.CharField(max_length=255, blank=True, null=True)
     images = models.JSONField(default=list)
     days = models.ManyToManyField('Day', related_name="exercises")
 

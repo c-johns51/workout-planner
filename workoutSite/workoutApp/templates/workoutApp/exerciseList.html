@@ -34,7 +34,7 @@
             {% endfor %}
 
             <!-- Link to the add_to_routine page -->
-            <a href="{% url 'add_to_routine' %}?exercise_name={{ item.name }}&primaryMuscles={{ item.primaryMuscles }}&instructions={{ item.instructions }}&images={{ item.images }}" 
+            <a href="{% url 'add_to_routine' %}?exercise_name={{ item.name }}&primaryMuscles={{ item.primaryMuscles }}&secondaryMuscles={{ item.secondaryMuscles }}&instructions={{ item.instructions }}&images={{ item.images }}" 
                class="btn btn-primary" 
                style="margin-top: 10px;">
                 Add to Routine

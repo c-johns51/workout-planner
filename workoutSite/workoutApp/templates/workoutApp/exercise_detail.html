@@ -1,0 +1,50 @@
+{% extends 'baseTemplate.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="tile">
+        <!-- Images -->
+        <div class="image-grid d-flex justify-content-center">
+            {% for image in exercise.images %}
+                <img src="{% static 'exercises/' %}{{ image }}" alt="{{ exercise.name }} image" class="img-thumbnail me-2 mb-2" style="max-width: 300px;">
+                {% endfor %}
+        </div>
+
+        <!-- Exercise Name -->
+        <h2 style="color: white; text-align: center;">{{ exercise.name }}</h2>
+
+        <!-- Primary Muscles -->
+        <h3 style="color: white; text-align: center;">
+            Primarily targets: 
+            {% for muscle in primary_muscles %} 
+                {{ muscle }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </h3>
+
+        <!-- Secondary Muscles -->
+        {% if secondary_muscles %}
+            <h4 style="color: white; text-align: center;">
+                Also targets: {% for muscle in secondary_muscles %} 
+                {{ muscle }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </h4>
+        {% endif %}
+
+
+        <!-- Instructions -->
+        <div style="color: white; margin-top: 20px;">
+            <h3>Instructions:</h3>
+            <ul>
+                {% for step in description_steps %}
+                    <li>{{ step }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Back to Routine Button -->
+        <a href="{% url 'view_routine' %}" class="btn btn-secondary" style="margin-top: 20px;">Back to Routine</a>
+    </div>
+</div>
+
+{% endblock %}
