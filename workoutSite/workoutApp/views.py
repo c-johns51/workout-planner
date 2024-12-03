@@ -81,17 +81,29 @@ def view_routine(request):
     routine = Routine.objects.filter(user=request.user).first()
     days = Day.objects.all()
 
-    # Group exercises by day
+    # Group exercises by day (default to an empty QuerySet if no routine exists)
     exercises_by_day = {
-        day.name: routine.exercises.filter(days=day) if routine else []
+        day.name: routine.exercises.filter(days=day) if routine else Exercise.objects.none()
         for day in days
     }
 
     return render(request, 'workoutApp/view_routine.html', {
-        'exercises_by_day': exercises_by_day
+        'exercises_by_day': exercises_by_day,
+        'days': days,
+        'routine': routine,
     })
 
-def remove_exercise(request, exercise_id):
+def remove_exercise(request, exercise_id, day):
+    """Removes the association of an exercise to a specific day. If deleting the last instance 
+    of the exercise in a routine, the exercise is deleted entirely from the routine."""
     exercise = get_object_or_404(Exercise, id=exercise_id, routine__user=request.user)
-    exercise.delete()
+    day_instance = get_object_or_404(Day, name=day)
+    
+    # Remove the association between the exercise and the specified day
+    exercise.days.remove(day_instance)
+    
+    # Check if the exercise is still associated with any days
+    if not exercise.days.exists():
+        exercise.delete()
+
     return redirect('view_routine')
