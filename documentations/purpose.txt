@@ -1,1 +1,0 @@
-This folder contains our four UML diagrams used to develop this app.
